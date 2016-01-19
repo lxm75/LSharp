@@ -1,0 +1,49 @@
+namespace UnitTestDll
+{
+//关于多if条件出错的问题
+    class test_IF
+    {
+        //----------------------------------------------------------------------------------------------------------------------
+        public void Start1()
+	      {
+            if(IsMobilePhone("13123456789"))
+                Logger.Log("IsMobilePhone OK");
+            else
+                Logger.Log("IsMobilePhone Error");
+        }
+        //----------------------------------------------------------------------------------------------------------------------
+        bool IsMobilePhone(string Account)
+        {
+            int iTmp = 0;
+            if(Account == null)
+                return false;
+            if(Account.Length == 11)
+            {
+                for(int i = 0; i < 11; ++i)
+                {
+                    if(int.TryParse(Account[i].ToString(), out iTmp))
+                    {
+                        if(i == 0)
+                        {
+                            if(iTmp != 1)
+                                return false;
+                        }
+                        else if(i == 1)
+                        {
+                            //以下两行代码出错，屏蔽后正常
+                            if(iTmp<3 || iTmp>8)
+                                return false;
+                        }
+                    }
+                    else
+                        return false;
+                }
+            }
+            else
+                return false;
+
+            return true;
+        }
+    }
+    //----------------------------------------------------------------------------------------------------------------------
+  }
